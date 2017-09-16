@@ -1,0 +1,72 @@
+{{include './header'}}
+<body>
+<div class="page" id="file">
+    <header class="bar bar-nav">
+        <a class="icon icon-me pull-left open-panel" data-panel=".panel-left"></a>
+        <h1 class='title'>{{nav_title}}</h1>
+    </header>
+    <div class="content native-scroll menu">
+       <div class="file-box">
+          {{datas.lyc}}
+       </div>
+    </div>
+    {{include './music_control'}}
+</div>
+
+<!--左侧栏-->
+{{include './left'}}
+<script src="./js/lib/zepto.js"></script>
+<script src="./js/lib/sm.min.js"></script>
+<script>
+    $.get("./js/lrc/fukua.lrc", function (data){
+        parseLyric(data);
+        console.log(data);
+    })
+    function parseLyric(data) {
+        var lyrics = lrc.split("\n");
+        var lrcObj = {};
+        for(var i=0;i<lyrics.length;i++){
+            var lyric = decodeURIComponent(lyrics[i]);
+            var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+            var timeRegExpArr = lyric.match(timeReg);
+            if(!timeRegExpArr)continue;
+            var clause = lyric.replace(timeReg,'');
+            for(var k = 0,h = timeRegExpArr.length;k < h;k++) {
+                var t = timeRegExpArr[k];
+                var min = Number(String(t.match(/\[\d*/i)).slice(1)),
+                    sec = Number(String(t.match(/\:\d*/i)).slice(1));
+                var time = min * 60 + sec;
+                lrcObj[time] = clause;
+            }
+        }
+        return lrcObj;
+    }
+    $player.bind("playing",function(){
+        renderLyric($player.music);
+    });
+    function renderLyric(music){
+        lyric.html("");
+        var lyricLineHeight = 27,
+            offset = lyric_wrap.offset().height*0.4;
+        music.lyric.fetch(function(data){
+            music.lyric.parsed = {};
+            var i = 0;
+            for(var k in data){
+                var txt = data[k];
+                if(!txt)txt = "&nbsp;";
+                music.lyric.parsed[k] = {
+                    index:i++,
+                    text:txt,
+                    top: i*lyricLineHeight-offset
+                };
+                var li = $("<li>"+txt+"</li>");
+                lyric.append(li);
+            }
+            $player.bind("timeupdate",updateLyric);
+        },function(){
+            lyric.html("<li style='text-align: center'>歌词加载失败</li>");
+        });
+    }
+</script>
+</body>
+{{include './footer'}}

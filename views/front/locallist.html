@@ -1,0 +1,56 @@
+{{include './header'}}
+<body>
+<div class="page" id="locallist">
+    <header class="bar bar-nav">
+        <a class="icon icon-me pull-left open-panel" data-panel=".panel-left"></a>
+        <h1 class='title'>{{nav_title}}</h1>
+    </header>
+    <div class="content native-scroll">
+        <div class="search">
+            <input type="text">
+            <span class="icon icon-search"></span>
+        </div>
+        <div class="buttons-tab">
+            <a href="#tab1" class="tab-link button active">单曲</a>
+            <a href="#tab2" class="tab-link button">歌手</a>
+        </div>
+        <div class="tabs">
+            <div id="tab1" class="tab active">
+                <div class="list-block mt0-i locallist">
+                    <ul>
+                        {{each datas as value index}}
+                        <li>
+                            <a href="/file?id={{value.id}}" class="item-link item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{value.name}}</div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <div id="tab2" class="tab">
+                <div class="list-block mt0-i">
+                    <ul>
+                        {{each data as value index}}
+                        <li>
+                            <a href="/list?singerid={{value.id}}" class="item-link item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{value.name}}</div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--左侧栏-->
+{{include './left'}}
+<script src="./js/lib/zepto.js"></script>
+<script src="./js/lib/sm.min.js"></script>
+</body>
+{{include './footer'}}
