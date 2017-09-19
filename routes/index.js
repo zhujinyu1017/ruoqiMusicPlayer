@@ -7,6 +7,10 @@ var db = require("./db.js");
 router.get('/', function(req, res, next) {
   res.render('front/index', { title: '首页','nav_title':'若栖音乐'});
 });
+/* GET test page. */
+router.get('/test', function(req, res, next) {
+    res.render('front/test', { title: '首页','nav_title':'若栖音乐'});
+});
 /* 本地音乐列表页 */
 router.get('/locallist', function (req, res, next) {
     var arg = url.parse(req.url, true).query;

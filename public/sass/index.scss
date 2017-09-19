@@ -93,5 +93,10 @@
     text-align: center;
     line-height: 2.5rem;
     font-size: .6rem;
+    padding: .8rem 0 1.5rem;
+    .active{
+      color: #0a8ddf;
+      font-size: .7rem;
+    }
   }
 }

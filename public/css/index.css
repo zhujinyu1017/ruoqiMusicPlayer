@@ -67,6 +67,10 @@
     background: #fff;
     text-align: center;
     line-height: 2.5rem;
-    font-size: .6rem; }
+    font-size: .6rem;
+    padding: .8rem 0 1.5rem; }
+    #file .file-box .active {
+      color: #0a8ddf;
+      font-size: .7rem; }
 
 /*# sourceMappingURL=index.css.map */

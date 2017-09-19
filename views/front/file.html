@@ -3,12 +3,13 @@
 <div class="page" id="file">
     <header class="bar bar-nav">
         <a class="icon icon-me pull-left open-panel" data-panel=".panel-left"></a>
-        <h1 class='title'>{{nav_title}}</h1>
+        <!--<h1 class='title'>{{nav_title}}</h1>-->
+        <h1 class='title'>测试页面</h1>
     </header>
     <div class="content native-scroll menu">
-       <div class="file-box">
-          {{datas.lyc}}
-       </div>
+        <div class="file-box" id="lrc">
+            {{datas.lyc}}
+        </div>
     </div>
     {{include './music_control'}}
 </div>
@@ -18,11 +19,14 @@
 <script src="./js/lib/zepto.js"></script>
 <script src="./js/lib/sm.min.js"></script>
 <script>
-    $.get("./js/lrc/fukua.lrc", function (data){
-        parseLyric(data);
-        console.log(data);
+    var times=0;
+    var timer;
+    var w;
+    $.get("./js/lrc/fukua.lrc", function (data) {
+        var lrc=analysisLrc(data);
+        rendHtml(lrc);
     })
-    function parseLyric(data) {
+    function analysisLrc(lrc) {
         var lyrics = lrc.split("\n");
         var lrcObj = {};
         for(var i=0;i<lyrics.length;i++){
@@ -41,32 +45,63 @@
         }
         return lrcObj;
     }
-    $player.bind("playing",function(){
-        renderLyric($player.music);
-    });
-    function renderLyric(music){
-        lyric.html("");
-        var lyricLineHeight = 27,
-            offset = lyric_wrap.offset().height*0.4;
-        music.lyric.fetch(function(data){
-            music.lyric.parsed = {};
-            var i = 0;
-            for(var k in data){
-                var txt = data[k];
-                if(!txt)txt = "&nbsp;";
-                music.lyric.parsed[k] = {
-                    index:i++,
-                    text:txt,
-                    top: i*lyricLineHeight-offset
-                };
-                var li = $("<li>"+txt+"</li>");
-                lyric.append(li);
-            }
-            $player.bind("timeupdate",updateLyric);
-        },function(){
-            lyric.html("<li style='text-align: center'>歌词加载失败</li>");
-        });
+    function rendHtml(lrcObj) {
+        var list='';
+        for(var i in lrcObj){
+            var div='<div data-seconds="'+i+'" class="item">'+lrcObj[i]+'</div>';
+            list +=div;
+        }
+        $("#lrc").html(list);
     }
+    var w;
+    function startWorker(){
+        if(typeof(Worker)!=="undefined"){
+            if(typeof(w)=="undefined"){
+                w=new Worker("./js/front/demo_workers.js");
+            }
+            w.postMessage("start");
+            w.addEventListener("message", function (ev) {
+                times=ev.data;
+            }, false);
+        }
+        else{
+            document.getElementById("lrc").innerHTML="暂无歌词！";
+        }
+    }
+    function stopWorker() {
+        w.postMessage("stop"); // start the worker.
+    }
+    startWorker();
+    function lrcSynchronize() {
+        var timeArr=[];
+        var pre_item=$(".item");
+        pre_item.each(function (index) {
+            var seconds=pre_item.eq(index).attr("data-seconds");
+            timeArr.push(seconds);
+        })
+        var i=0;
+        timer=setInterval(function () {
+            if(times<=timeArr[timeArr.length-1]){
+                if(timeArr[i]==times){
+                    console.log("是");
+                    pre_item.eq(i).addClass("active").siblings().removeClass("active");
+                    i++;
+                }else{
+                    console.log('不是');
+                }
+            }else{
+                times=1;
+                i=0;
+                w.postMessage("stop");
+                clearInterval(timer);
+            }
+
+        },1000)
+    }
+    $(".start").on('click',function () {
+        song.play();
+        lrcSynchronize();
+    })
 </script>
 </body>
 {{include './footer'}}
