@@ -99,8 +99,12 @@
         },1000)
     }
     $(".start").on('click',function () {
+        $(this).attr("class","end");
         song.play();
         lrcSynchronize();
+    })
+    $(".end").on('click',function () {
+        w.postMessage("stop");
     })
 </script>
 </body>

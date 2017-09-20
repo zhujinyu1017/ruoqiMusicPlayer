@@ -11,6 +11,45 @@ router.get('/', function(req, res, next) {
 router.get('/test', function(req, res, next) {
     res.render('front/test', { title: '首页','nav_title':'若栖音乐'});
 });
+/*歌单*/
+/* 本地音乐列表页 */
+router.get('/cardlist', function (req, res, next) {
+
+    db.query('select * from songlist', function (err, rows) {
+        if (!err) {
+            var $datas=JSON.parse(JSON.stringify(rows));
+            var i=0;
+          var t=setInterval(function () {
+              if(i<rows.length){
+                  var arr=rows[i].content.toString().split('，');
+                  var conditionArr=[];
+                  for (var j=0;j<arr.length;j++){
+                      conditionArr.push('id='+arr[j]);
+                  }
+                  var condition=conditionArr.join(' or ');
+                  console.log(condition);
+                  // var ss='SELECT   *    FROM   music   LEFT JOIN   songlist   ON   id=t2.lv_id  '
+                  db.query('select * from music where ('+condition+')', function (err, rows) {
+                      var data=JSON.parse(JSON.stringify(rows));
+                      if (err) {
+                          $datas[i]=[];
+                      }else {
+                          $datas[i]['songlist']=data;
+                      }
+                      console.log($datas);
+                  })
+                  i++;
+              }else {
+                  clearInterval(t);
+              }
+          },1)
+            // console.log($datas);
+            res.render('front/cardlist', {title: '歌单',nav_title:'歌单', datas: $datas});
+        }else{
+            res.render('front/cardlist', {title: '歌单',nav_title:'歌单', datas: []});
+        }
+    })
+});
 /* 本地音乐列表页 */
 router.get('/locallist', function (req, res, next) {
     var arg = url.parse(req.url, true).query;

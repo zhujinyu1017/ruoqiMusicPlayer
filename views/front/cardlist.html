@@ -1,0 +1,35 @@
+{{include './header'}}
+<body>
+<div class="page" id="locallist">
+    <header class="bar bar-nav">
+        <a class="icon icon-me pull-left open-panel" data-panel=".panel-left"></a>
+        <h1 class='title'>{{title}}</h1>
+    </header>
+    <div class="content native-scroll">
+        {{each datas as value index}}
+        <div class="content-block-title">{{value.name}}</div>
+        <!--<div class="list-block media-list mt0-i">-->
+            <!--<ul>-->
+                <!--{{each value.songlist as song index}}-->
+                <!--<li>-->
+                    <!--<div class="item-content">-->
+                        <!--<div class="item-inner">-->
+                            <!--<div class="item-title-row">-->
+                                <!--<div class="item-title">{{song.name}}</div>-->
+                            <!--</div>-->
+                            <!--<div class="item-subtitle">{{song.signer}}</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--{{/each}}-->
+            <!--</ul>-->
+        <!--</div>-->
+        {{/each}}
+    </div>
+</div>
+<!--左侧栏-->
+{{include './left'}}
+<script src="./js/lib/zepto.js"></script>
+<script src="./js/lib/sm.min.js"></script>
+</body>
+{{include './footer'}}
