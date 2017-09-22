@@ -1,0 +1,84 @@
+{{include './header'}}
+<body>
+<div class="page" id="locallist">
+    <header class="bar bar-nav">
+        <a class="icon icon-me pull-left open-panel" data-panel=".panel-left"></a>
+        <h1 class='title'>{{nav_title}}</h1>
+    </header>
+    <div class="content native-scroll">
+        {{if islocal == 0 }}
+        <form method="post">
+            <div class="search">
+                <input type="text" name="searchContent" class="searchContent" id="searchContent">
+                <span class="icon icon-search" id="search"></span>
+            </div>
+        </form>
+        {{/if}}
+        <div class="buttons-tab">
+            <a href="#tab1" class="tab-link button active" data-type="song">单曲</a>
+            <a href="#tab2" class="tab-link button" data-type="singer">歌手</a>
+        </div>
+        <div class="tabs">
+            <div id="tab1" class="tab active">
+                <div class="list-block mt0-i locallist">
+                    <ul>
+                        {{each datas as value index}}
+                        <li>
+                            <a href="/file?id={{value.id}}" class="item-link item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{value.name}}</div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <div id="tab2" class="tab">
+                <div class="list-block mt0-i">
+                    <ul>
+                        {{each data as value index}}
+                        <li>
+                            <a href="/list?singerid={{value.id}}" class="item-link item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{value.name}}</div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--左侧栏-->
+{{include './left'}}
+<script id="demo_songlist" type="text/html">
+    {{#data}}
+    <li>
+        <a href="/file?id={{id}}" class="item-link item-content">
+            <div class="item-inner">
+                <div class="item-title">{{name}}</div>
+            </div>
+        </a>
+    </li>
+    {{/data}}
+</script>
+<script id="demo_singerlist" type="text/html">
+    {{#data}}
+    <li>
+        <a href="/list?singerid={{id}}" class="item-link item-content">
+            <div class="item-inner">
+                <div class="item-title">{{name}}</div>
+            </div>
+        </a>
+    </li>
+    {{/data}}
+</script>
+<script src="./js/lib/zepto.js"></script>
+<script src="./js/lib/sm.min.js"></script>
+<script src="./js/lib/mustache.min.js"></script>
+<script src="./js/front/locallist.js"></script>
+</body>
+{{include './footer'}}

@@ -3,12 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../css/lib/sm.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+<div class="content native-scroll">
+    <div class="list-block">
+        <ul>
+            <!-- Text inputs -->
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">歌名</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="请输入分类标签" name="songname" id="songname">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">分类</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="请输入分类标签" name="sort" id="sort">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">排名</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="请输入分类标签" name="rank" id="rank">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">歌手</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="请输入分类标签" name="singer" id="singer">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">更新时间</div>
+                        <div class="item-input">
+                            <input type="date" placeholder="请输入分类标签" name="updatetime" id="updatetime">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-block">
+        <div class="row">
+            <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
+            <div class="col-50"><a href="#" class="button button-big button-fill button-success" id="btn-submit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
 <form id='editfile' method='post' action='/admin/file_upload' enctype='multipart/form-data'>
     封面图片：<input name="music_img" id='upfile_img' type='file'/>
     <!--选择文件：<input name="music_lrc" id='upfile_lrc' type='file'/>-->
     <input type='submit' value='提交'/>
 </form>
+<script src="../js/lib/zepto.js"></script>
+<script src="../js/lib/sm.min.js"></script>
+<script>
+    $("#btn-submit").on('click',function () {
+        var songname=$("#songname").val();
+        var sort=$("#sort").val();
+        var rank=$("#rank").val();
+        var singer=$("#singer").val();
+        var updatetime=$("#updatetime").val();
+        $.ajax({
+            url:'/admin/songAdd',
+            type:'POST',
+            data:{'songname':songname,'sort':sort,'rank':rank,'singer':singer,'updatetime':updatetime},
+            error:function (result) {
+                console.log('请求失败');
+            },
+            success:function (result) {
+                if(result.success){
+                    console.log('请求成功');
+//                location.reload();
+                }
+            }
+        })
+    })
+</script>
 </body>
 </html>

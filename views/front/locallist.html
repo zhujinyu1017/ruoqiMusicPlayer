@@ -6,13 +6,17 @@
         <h1 class='title'>{{nav_title}}</h1>
     </header>
     <div class="content native-scroll">
-        <div class="search">
-            <input type="text">
-            <span class="icon icon-search"></span>
-        </div>
+        {{if islocal == 0 }}
+        <form method="post">
+            <div class="search">
+                <input type="text" name="searchContent" class="searchContent" id="searchContent">
+                <span class="icon icon-search" id="search"></span>
+            </div>
+        </form>
+        {{/if}}
         <div class="buttons-tab">
-            <a href="#tab1" class="tab-link button active">单曲</a>
-            <a href="#tab2" class="tab-link button">歌手</a>
+            <a href="#tab1" class="tab-link button active" data-type="song">单曲</a>
+            <a href="#tab2" class="tab-link button" data-type="singer">歌手</a>
         </div>
         <div class="tabs">
             <div id="tab1" class="tab active">
@@ -52,5 +56,57 @@
 {{include './left'}}
 <script src="./js/lib/zepto.js"></script>
 <script src="./js/lib/sm.min.js"></script>
+<script>
+    function contentSet() {
+
+    }
+    $(function () {
+        $(".content").on('click','#search',function () {
+            var search=document.getElementById('searchContent').value;
+            var type=$(".tab-link.active").attr("data-type");
+            var tab1=$("#tab1");
+            var tab2=$("#tab2");
+            var styletext="style='padding: 15px; color: #828282;font-size: 12px; text-align: center;'";
+            $.ajax({
+                url:'/search',
+                data:{search:search,type:type},
+                type: 'post',
+                success:function (result) {
+                    console.log('请求成功');
+                    var tpl='';
+                    var datas=result.data;
+                    var _length=datas.length;
+                     if(type=='song'){
+                         if(_length<1){
+                             tab1.html("<div "+styletext+">没有搜到符合条件的请求</div>");
+                         }else{
+                             for(var i=0;i<_length;i++){
+                                 tpl +='<li><a href="/file?id='+datas[i].id+'" class="item-link item-content"><div class="item-inner">'+datas[i].name+'</div></a></li>';
+                             }
+                             tab1.html('<ul>'+tpl+'</ul>');
+                         }
+                     }else{
+                         if(_length<1){
+                             tab2.html("<div "+styletext+">没有搜到符合条件的请求</div>");
+                         }else{
+                             for(var i=0;i<result.data.length;i++){
+                                 tpl +='<li><a href="/file?singerid='+datas[i].id+'" class="item-link item-content"><div class="item-inner">'+datas[i].name+'</div></a></li>';
+                             }
+                             tab2.html('<ul>'+tpl+'</ul>');
+                         }
+                     }
+                },
+                error:function () {
+                    console.log('请求失败');
+                     if(type=='song'){
+                         tab1.html("<div "+styletext+">请求失败</div>");
+                     }else{
+                         tab2.html("<div "+styletext+">请求失败</div>");
+                     }
+                }
+            })
+        })
+    })
+</script>
 </body>
 {{include './footer'}}
