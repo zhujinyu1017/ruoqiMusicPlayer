@@ -23,13 +23,49 @@
                     </div>
                 </div>
             </li>
+            <form id="form-demo" enctype="multipart/form-data" action="javascript:">
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">歌曲上传</div>
+                        <div class="item-input">
+                            <input name="music_song"  type='file' placeholder="浏览" id="music_song"/>
+                            <input type='button' value='提交' class="icon icon-check" id="upload_song">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            </form>
+            <!--<li>-->
+                <!--<div class="item-content">-->
+                    <!--<div class="item-media"><i class="icon icon-form-name"></i></div>-->
+                    <!--<div class="item-inner">-->
+                        <!--<form  method='post' action='/admin/file_upload' enctype='multipart/form-data'>-->
+                            <!--歌曲上传：<input name="music_song"  type='file' placeholder="浏览"/>-->
+                            <!--<input type='button' value='提交' class="icon icon-check" id="upload_song">-->
+                        <!--</form>-->
+                        <!--<form  method='post' action='/admin/file_upload' enctype='multipart/form-data'>-->
+                            <!--封面上传：<input name="music_lrc" id='music_lrc' type='file'/>-->
+                            <!--<input type='button' value='提交' class="icon icon-check" id="upload_img">-->
+                        <!--</form>-->
+                        <!--<form  method='post' action='/admin/file_upload' enctype='multipart/form-data'>-->
+                            <!--封面上传：<input name="music_lrc" id='music_lrc' type='file'/>-->
+                            <!--<input type='button' value='提交' class="icon icon-check" id="upload_img">-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
             <li>
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-name"></i></div>
                     <div class="item-inner">
                         <div class="item-title label">分类</div>
                         <div class="item-input">
-                            <input type="text" placeholder="请输入分类标签" name="sort" id="sort">
+                            <select name="sort" id="sort">
+                                <option value="1">古典</option>
+                                <option value="2">流行</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -40,7 +76,7 @@
                     <div class="item-inner">
                         <div class="item-title label">排名</div>
                         <div class="item-input">
-                            <input type="text" placeholder="请输入分类标签" name="rank" id="rank">
+                            <input type="number" placeholder="请输入分类标签" name="rank" id="rank">
                         </div>
                     </div>
                 </div>
@@ -51,18 +87,10 @@
                     <div class="item-inner">
                         <div class="item-title label">歌手</div>
                         <div class="item-input">
-                            <input type="text" placeholder="请输入分类标签" name="singer" id="singer">
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="item-content">
-                    <div class="item-media"><i class="icon icon-form-name"></i></div>
-                    <div class="item-inner">
-                        <div class="item-title label">更新时间</div>
-                        <div class="item-input">
-                            <input type="date" placeholder="请输入分类标签" name="updatetime" id="updatetime">
+                            <select name="songster" id="songster">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -77,24 +105,44 @@
         </div>
     </div>
 </div>
-<form id='editfile' method='post' action='/admin/file_upload' enctype='multipart/form-data'>
-    封面图片：<input name="music_img" id='upfile_img' type='file'/>
-    <!--选择文件：<input name="music_lrc" id='upfile_lrc' type='file'/>-->
-    <input type='submit' value='提交'/>
-</form>
 <script src="../js/lib/zepto.js"></script>
 <script src="../js/lib/sm.min.js"></script>
 <script>
+    $("#upload_song").on('click',function () {
+        var file = document.getElementById("music_song")
+        var formData = new FormData();
+        formData.append('music_song',file.files[0]);
+        $.ajax({
+            url: '/admin/file_upload',
+            type: 'POST',
+            data: formData,
+            // async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                if(200 === data.code) {
+                    $('#result').html("上传成功！");
+                    $('#img').attr('src',data.data);
+                } else {
+                    $('#result').html("上传失败！");
+                }
+                console.log('imgUploader upload success');
+            },
+            error: function(){
+                $("#result").html("与服务器通信发生错误");
+            }
+        });
+    })
     $("#btn-submit").on('click',function () {
         var songname=$("#songname").val();
         var sort=$("#sort").val();
         var rank=$("#rank").val();
-        var singer=$("#singer").val();
-        var updatetime=$("#updatetime").val();
+        var songster=$("#songster").val();
         $.ajax({
             url:'/admin/songAdd',
             type:'POST',
-            data:{'songname':songname,'sort':sort,'rank':rank,'singer':singer,'updatetime':updatetime},
+            data:{'songname':songname,'sort':sort,'rank':rank,'songster':songster},
             error:function (result) {
                 console.log('请求失败');
             },

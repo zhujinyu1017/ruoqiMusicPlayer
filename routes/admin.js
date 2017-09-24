@@ -87,11 +87,13 @@ router.post('/songAdd',function (req,res,next) {
     var songname=req.body.songname;
     var sort=req.body.sort;
     var rank=req.body.rank;
-    var singer=req.body.singer;
-    var updatetime=req.body.updatetime;
-    console.log("INSERT INTO music (name,sort,rank,singer,updatetime) VALUES('"+songname+"','"+sort+"','"+rank+"','"+singer+"','"+updatetime+"')");
-    db.query("INSERT INTO music (name,sort,rank,singer,updatetime) VALUES('aa','bb','5','dd','2017-09-07')", function (err, rows) {
+    var songster=req.body.songster;
+    console.log(sort);
+    console.log(songster);
+    // console.log("INSERT INTO music (name,sort,rank,singer,updatetime) VALUES('"+songname+"','"+sort+"','"+rank+"','"+singer+"','"+updatetime+"')");
+    db.query("INSERT INTO music (name,sort,rank,songster) VALUES('"+songname+"','"+sort+"','"+rank+"','"+songster+"')", function (err, rows) {
         if(err){
+            throw new Error();
             var returnData={
                 success:false,
                 data:[
@@ -111,11 +113,27 @@ router.post('/songAdd',function (req,res,next) {
         res.send(returnData);
     });
 })
-router.post('/file_upload',upload.single('music_img'),function (req, res) {
+router.post('/file_upload',upload.single('music_song'),function (req, res) {
+    console.log(res);
     if (req.file) {
-        res.send('文件上传成功')
-        console.log(req.file);
-        console.log(req.body);
+        var returnData={
+            success:true,
+            data:[
+                {
+                    msg:'文件上传成功'
+                }
+            ]
+        }
+    }else{
+        var returnData={
+            success:defaults,
+            data:[
+                {
+                    msg:'文件上传失败'
+                }
+            ]
+        }
     }
+    res.send(returnData);
 })
 module.exports = router;
