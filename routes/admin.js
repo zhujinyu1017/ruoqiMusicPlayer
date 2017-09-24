@@ -90,7 +90,7 @@ router.post('/songAdd',function (req,res,next) {
     var singer=req.body.singer;
     var updatetime=req.body.updatetime;
     console.log("INSERT INTO music (name,sort,rank,singer,updatetime) VALUES('"+songname+"','"+sort+"','"+rank+"','"+singer+"','"+updatetime+"')");
-    db.query("INSERT INTO music (name) VALUES('"+songname+"')", function (err, rows) {
+    db.query("INSERT INTO music (name,sort,rank,singer,updatetime) VALUES('aa','bb','5','dd','2017-09-07')", function (err, rows) {
         if(err){
             var returnData={
                 success:false,
