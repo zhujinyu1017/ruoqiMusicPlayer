@@ -114,8 +114,8 @@ router.post('/songAdd',function (req,res,next) {
     });
 })
 router.post('/file_upload',upload.single('music_song'),function (req, res) {
-    console.log(res);
     if (req.file) {
+        console.log(req.file.destination);
         var returnData={
             success:true,
             data:[
@@ -129,7 +129,7 @@ router.post('/file_upload',upload.single('music_song'),function (req, res) {
             success:defaults,
             data:[
                 {
-                    msg:'文件上传失败'
+                    path:req.file.destination
                 }
             ]
         }
