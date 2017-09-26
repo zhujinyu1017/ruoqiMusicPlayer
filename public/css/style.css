@@ -12,6 +12,9 @@ html, body {
 .mt0-i {
   margin-top: 0 !important; }
 
+.hide {
+  display: none !important; }
+
 .flex-box {
   display: -webkit-flex;
   /* Safari */

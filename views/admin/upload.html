@@ -23,7 +23,6 @@
                     </div>
                 </div>
             </li>
-            <form id="form-demo" enctype="multipart/form-data" action="javascript:">
             <li>
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-name"></i></div>
@@ -31,12 +30,25 @@
                         <div class="item-title label">歌曲上传</div>
                         <div class="item-input">
                             <input name="music_song"  type='file' placeholder="浏览" id="music_song"/>
+                            <input name="song"  type='text'  id="music_song_file" class="hide"/>
                             <input type='button' value='提交' class="icon icon-check" id="upload_song">
                         </div>
                     </div>
                 </div>
             </li>
-            </form>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">歌词上传</div>
+                        <div class="item-input">
+                            <input name="music_lrc"  type='file' placeholder="浏览" id="music_lrc"/>
+                            <input name="lrc"  type='text'  id="music_lrc_file" class="hide"/>
+                            <input type='button' value='提交' class="icon icon-check" id="upload_lrc">
+                        </div>
+                    </div>
+                </div>
+            </li>
             <!--<li>-->
                 <!--<div class="item-content">-->
                     <!--<div class="item-media"><i class="icon icon-form-name"></i></div>-->
@@ -107,32 +119,17 @@
 </div>
 <script src="../js/lib/zepto.js"></script>
 <script src="../js/lib/sm.min.js"></script>
+<script src="../js/front/upload.js"></script>
 <script>
     $("#upload_song").on('click',function () {
-        var file = document.getElementById("music_song")
-        var formData = new FormData();
-        formData.append('music_song',file.files[0]);
-        $.ajax({
-            url: '/admin/file_upload',
-            type: 'POST',
-            data: formData,
-            // async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data){
-                if(200 === data.code) {
-                    $('#result').html("上传成功！");
-                    $('#img').attr('src',data.data);
-                } else {
-                    $('#result').html("上传失败！");
-                }
-                console.log('imgUploader upload success');
-            },
-            error: function(){
-                $("#result").html("与服务器通信发生错误");
-            }
-        });
+        uploads('music_song'), function (data) {
+            console.log(data)
+        }
+    })
+    $("#upload_lrc").on('click',function () {
+        uploads('music_lrc'), function (data) {
+            console.log(data)
+        }
     })
     $("#btn-submit").on('click',function () {
         var songname=$("#songname").val();

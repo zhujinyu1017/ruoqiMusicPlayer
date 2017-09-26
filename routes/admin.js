@@ -115,23 +115,40 @@ router.post('/songAdd',function (req,res,next) {
 })
 router.post('/file_upload',upload.single('music_song'),function (req, res) {
     if (req.file) {
-        console.log(req.file.destination);
+        console.log(req.file.path);
+        console.log(req.file);
         var returnData={
             success:true,
-            data:[
-                {
-                    msg:'文件上传成功'
+            data:{
+                    path:req.file.path
                 }
-            ]
         }
     }else{
         var returnData={
-            success:defaults,
-            data:[
-                {
-                    path:req.file.destination
+            success:false,
+            data:{
+                    msg:'文件上传失败'
                 }
-            ]
+        }
+    }
+    res.send(returnData);
+})
+router.post('/file_upload',upload.single('music_lrc'),function (req, res) {
+    if (req.file) {
+        console.log(req.file.path);
+        console.log(req.file);
+        var returnData={
+            success:true,
+            data:{
+                path:req.file.path
+            }
+        }
+    }else{
+        var returnData={
+            success:false,
+            data:{
+                msg:'文件上传失败'
+            }
         }
     }
     res.send(returnData);
