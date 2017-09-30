@@ -1,12 +1,12 @@
 /**
  * Created by zhujinyu on 2017/9/26.
  */
-function uploads(field_name,callback) {
-    var file = document.getElementById(field_name)
-    var formData = new FormData();
-    formData.append(field_name,file.files[0]);
-    debugger
-    var returnresult;
+function uploads(field_name,continuation) {
+    // var file = document.getElementById(field_name);
+    // console.log(field_name);
+    // var formData = new FormData();
+    // formData.append(field_name,file.files[0]);
+    console.log(formData);
     $.ajax({
         url: '/admin/file_upload',
         type: 'POST',
@@ -16,32 +16,26 @@ function uploads(field_name,callback) {
         contentType: false,
         processData: false,
         success: function(result){
-            if(result.success){
-                var song_path=result.data.path.split("music")[1];
-                returnresult={
-                    path:song_path,
-                    success:true
-                };
-                $("#"+field_name+'_file').val(song_path);
-            }else{
-                console.log(result.data.msg);
-                returnresult={
-                    success:false,
-                    msg:result.data.msg
-                };
+            try {
+                if (result.success){
+                    var song_path=result.data.path.split("music")[1];
+                    returnresult={
+                        path:song_path,
+                        success:true
+                    };
+                    $("#"+field_name+'_file').val(song_path);
+                    continuation(null, returnresult); // pass 'null' for error
+                }
+                else{
+                    throw new Error("上传失败");
+                }
+
+            } catch(e) {
+                continuation(e, null);
             }
-            callback=function(returnresult){
-                console.log(returnresult);
-            };
         },
         error: function(){
-            returnresult={
-                success:false,
-                msg:'请求失败'
-            };
-            callback=function(returnresult){
-                console.log(returnresult);
-            };
+            throw new Error("上传失败");
         }
     });
 }
