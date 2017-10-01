@@ -134,39 +134,38 @@ router.post('/songAdd',function (req,res,next) {
 //     res.send(returnData);
 // })
 var cpUpload = upload.fields([{ name: 'music_song', maxCount: 1 }, { name: 'music_lrc', maxCount: 1 }, { name: 'music_img', maxCount: 1 }])
-router.post('/file_upload',cpUpload,function (req, res) {
+router.post('/file_upload',cpUpload,function (req, res,next) {
     var songname=req.body.songname;
     var sort=req.body.sort;
     var rank=req.body.rank;
     var songster=req.body.songster;
+    var returnData={};
     if (req.files) {
         var song_path=req.files.music_song[0].path.split("music")[1];
         var lrc_path=req.files.music_lrc[0].path.split("music")[1];
         var img_path=req.files.music_img[0].path.split("music")[1];
-        // db.query("INSERT INTO music (name,sort,rank,songster,song_path,lrc_path,img_path) VALUES('"+songname+"','"+sort+"','"+rank+"','"+songster+"','"+song_path+"','"+lrc_path+"','"+img_path+"')", function (err, rows) {
-        //     if(err){
-        //         throw new Error();
-        //         var returnData={
-        //             success:false,
-        //             data:[
-        //                 {
-        //                     msg:'添加失败'
-        //                 }
-        //             ]
-        //         }
-        //     }else {
-        //         var returnData={
-        //             success:true,
-        //             data:{
-        //                 data:req.files,
-        //                 msg:'添加成功'
-        //             }
-        //         }
-        //     }
-        //     res.send(returnData);
-        // });
+        db.query("INSERT INTO music (name,sort,rank,songster,song_path,lrc_path,img_path) VALUES('"+songname+"','"+sort+"','"+rank+"','"+songster+"','"+song_path+"','"+lrc_path+"','"+img_path+"')", function (err, rows) {
+            if(err){
+                returnData={
+                    success:false,
+                    data:[
+                        {
+                            msg:'添加失败'
+                        }
+                    ]
+                }
+            }else {
+                returnData={
+                    success:true,
+                    data:{
+                        data:req.files,
+                        msg:'添加成功'
+                    }
+                }
+            }
+        });
     }else{
-        var returnData = {
+        returnData = {
             success: false,
             data: {
                 msg: '文件上传失败'
@@ -175,42 +174,4 @@ router.post('/file_upload',cpUpload,function (req, res) {
     }
     res.send(returnData);
 })
-// router.post('/file_upload',upload.single('music_lrc'),function (req, res) {
-//     if (req.file) {
-//         console.log(req.file.path);
-//         console.log(req.file);
-//         var returnData={
-//             success:true,
-//             data:{
-//                 path:req.file.path
-//             }
-//         }
-//     }else{
-//         var returnData={
-//             success:false,
-//             data:{
-//                 msg:'文件上传失败'
-//             }
-//         }
-//     }
-//     res.send(returnData);
-// })
-// router.post('/file_upload',upload.single('music_img'),function (req, res) {
-//     if (req.file) {
-//         var returnData={
-//             success:true,
-//             data:{
-//                 path:req.file.path
-//             }
-//         }
-//     }else{
-//         var returnData={
-//             success:false,
-//             data:{
-//                 msg:'文件上传失败'
-//             }
-//         }
-//     }
-//     res.send(returnData);
-// })
 module.exports = router;

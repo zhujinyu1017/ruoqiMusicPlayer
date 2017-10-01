@@ -31,8 +31,6 @@
                             <div class="item-title label">歌曲上传</div>
                             <div class="item-input">
                                 <input name="music_song" type='file' placeholder="浏览" id="music_song"/>
-                                <input name="song" type='text' id="music_song_file" class="hide"/>
-                                <input type='button' value='提交' class="icon icon-check" id="upload_song">
                             </div>
                         </div>
                     </div>
@@ -44,8 +42,6 @@
                             <div class="item-title label">歌词上传</div>
                             <div class="item-input">
                                 <input name="music_lrc" type='file' placeholder="浏览" id="music_lrc"/>
-                                <input name="lrc" type='text' id="music_lrc_file" class="hide"/>
-                                <input type='button' value='提交' class="icon icon-check" id="upload_lrc">
                             </div>
                         </div>
                     </div>
@@ -57,8 +53,6 @@
                             <div class="item-title label">封面</div>
                             <div class="item-input">
                                 <input name="music_img" type='file' placeholder="浏览" id="music_img"/>
-                                <input name="img_file" type='text' id="music_img_file" class="hide"/>
-                                <input type='button' value='提交' class="icon icon-check" id="upload_img">
                             </div>
                         </div>
                     </div>
@@ -107,7 +101,7 @@
         <div class="content-block">
             <div class="row">
                 <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
-                <div class="col-50"><a href="#" class="button button-big button-fill button-success"
+                <div class="col-50"><a href="#" class="button button-big button-fill button-light"
                                        id="btn-submit">提交</a>
                 </div>
             </div>
@@ -116,7 +110,6 @@
 </div>
 <script src="../js/lib/zepto.js"></script>
 <script src="../js/lib/sm.min.js"></script>
-<!--<script src="../js/front/upload.js"></script>-->
 <script>
     $("#btn-submit").on('click',function () {
         var formdata = new FormData(fileUpload);
@@ -129,66 +122,17 @@
             contentType: false,
             processData: false,
             success: function(result){
-                try {
-                    if (result.success){
-                        console.log(result)
-                    }
-                    else{
-                        throw new Error("上传失败");
-                    }
-
-                } catch(e) {
-                    console.log('上传失败')
+                if (result.success){
+                    console.log(result)
+                }else{
+                    console.log("上传失败");
                 }
             },
             error: function(){
-                throw new Error("上传失败");
+                console.log("上传失败");
             }
         });
     })
-//    $("#upload_song").on('click', function () {
-//        uploads('music_song', function (err, result) {
-//            if (err) {
-//                $.alert(err);
-//            } else {
-//                $.alert('上传成功');
-//            }
-//        });
-//    })
-//    $("#upload_lrc").on('click', function () {
-//        uploads('music_lrc', function (err, result) {
-//            if (err) {
-//                $.alert(err);
-//            } else {
-//                $.alert('上传成功');
-//            }
-//        });
-//    })
-//    $("#upload_img").on('click', function () {
-//        uploads('music_img', function (err, data) {
-//
-//        });
-//    })
-//    $("#btn-submit").on('click', function () {
-//        var songname = $("#songname").val();
-//        var sort = $("#sort").val();
-//        var rank = $("#rank").val();
-//        var songster = $("#songster").val();
-//        $.ajax({
-//            url: '/admin/songAdd',
-//            type: 'POST',
-//            data: {'songname': songname, 'sort': sort, 'rank': rank, 'songster': songster},
-//            error: function (result) {
-//                console.log('请求失败');
-//            },
-//            success: function (result) {
-//                if (result.success) {
-//                    console.log('请求成功');
-////                location.reload();
-//                }
-//            }
-//        })
-//    })
 </script>
 </body>
 </html>
