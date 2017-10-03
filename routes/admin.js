@@ -4,7 +4,23 @@ var router = express.Router();
 var db = require("./db.js");
 var fs = require("fs");
 var upload = require('./fileuploads');
-
+/* GET home page. */
+router.get('/', function(req, res, next) {
+    res.render('admin/index', { title: '控制台'});
+});
+//分类添加
+router.get('/songlist', function(req, res, next) {
+    var $datas;
+    db.query('select * from music',function (err,rows) {
+        console.log(rows);
+        if(err){
+            $datas=[];
+        }else{
+            $datas=rows;
+        }
+        res.render('admin/songlist', { title: '列表',datas:$datas});
+    })
+});
 //文件上传服务
 router.get('/upload', function(req, res, next) {
     res.render('admin/upload', { title: '文件上传' });
@@ -51,7 +67,7 @@ router.post('/sortAdd',function (req,res,next) {
             var returnData={
                 success:true,
                 data:{
-                    msg:'添加成功'
+                    name:sort
                 }
             }
         }
@@ -75,66 +91,17 @@ router.post('/labelAdd',function (req,res,next) {
             var returnData={
                 success:true,
                 data:{
-                    msg:'添加成功'
+                    name:label
                 }
             }
         }
         res.send(returnData);
     });
 })
-/*歌曲信息添加ajax*/
-router.post('/songAdd',function (req,res,next) {
-    var songname=req.body.songname;
-    var sort=req.body.sort;
-    var rank=req.body.rank;
-    var songster=req.body.songster;
-    console.log(sort);
-    console.log(songster);
-    // console.log("INSERT INTO music (name,sort,rank,singer,updatetime) VALUES('"+songname+"','"+sort+"','"+rank+"','"+singer+"','"+updatetime+"')");
-    db.query("INSERT INTO music (name,sort,rank,songster) VALUES('"+songname+"','"+sort+"','"+rank+"','"+songster+"')", function (err, rows) {
-        if(err){
-            throw new Error();
-            var returnData={
-                success:false,
-                data:[
-                    {
-                        msg:'添加失败'
-                    }
-                ]
-            }
-        }else {
-            var returnData={
-                success:true,
-                data:{
-                    msg:'添加成功'
-                }
-            }
-        }
-        res.send(returnData);
-    });
-})
-// router.post('/file_upload',upload.single('music_song'),function (req, res) {
-//     if (req.file) {
-//         console.log(req.file.path);
-//         console.log(req.file);
-//         var returnData={
-//             success:true,
-//             data:{
-//                     path:req.file.path
-//                 }
-//         }
-//     }else{
-//         var returnData={
-//             success:false,
-//             data:{
-//                     msg:'文件上传失败'
-//                 }
-//         }
-//     }
-//     res.send(returnData);
-// })
+/*信息上传*/
 var cpUpload = upload.fields([{ name: 'music_song', maxCount: 1 }, { name: 'music_lrc', maxCount: 1 }, { name: 'music_img', maxCount: 1 }])
 router.post('/file_upload',cpUpload,function (req, res,next) {
+    var uploadData=req.files;
     var songname=req.body.songname;
     var sort=req.body.sort;
     var rank=req.body.rank;
@@ -158,11 +125,12 @@ router.post('/file_upload',cpUpload,function (req, res,next) {
                 returnData={
                     success:true,
                     data:{
-                        data:req.files,
+                        data:uploadData,
                         msg:'添加成功'
                     }
                 }
             }
+            res.send(returnData);
         });
     }else{
         returnData = {
@@ -171,7 +139,7 @@ router.post('/file_upload',cpUpload,function (req, res,next) {
                 msg: '文件上传失败'
             }
         }
+        res.send(returnData);
     }
-    res.send(returnData);
 })
 module.exports = router;

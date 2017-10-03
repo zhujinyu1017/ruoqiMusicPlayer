@@ -1,0 +1,146 @@
+@charset "UTF-8";
+/*控制台首页*/
+.nav_top {
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  background: #373d41;
+  z-index: 101;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  top: 0;
+  left: 0;
+  a {
+    color: #fff;
+  }
+  .tubiao {
+    width: 50px;
+    text-align: center;
+  }
+  .nav-item {
+    width: 130px;
+  }
+  .setting-items {
+    float: right;
+    .item {
+      padding: 0 15px;
+    }
+  }
+}
+
+/*左侧导航*/
+.sidebar {
+  font-size: 12px;
+  width: 180px;
+  height: 100%;
+  left: 0;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+  transition-duration: .2s;
+  //position: relative;
+  //top: 50px;
+  //bottom: 0;
+  background-color: #333744;
+  color: #fff;
+  overflow-x: hidden;
+  .slidebar-fold {
+    height: 30px;
+    width: 100%;
+    background: #4A5064;
+    color: #aeb9c2;
+    text-align: center;
+    line-height: 30px !important;
+    font-size: 12px;
+    user-select: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+  }
+  .inner {
+    margin: 0 auto;
+    height: 40px;
+    background: #42485B;
+    color: #fff;
+    line-height: 40px;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    overflow: hidden;
+    a {
+      display: block;
+    }
+    .inner-item {
+      height: 40px;
+      overflow-y: hidden;
+    }
+    .glyphicon {
+      top: -2px;
+      display: inline-block;
+      margin: 0 8px 0 20px;
+      vertical-align: middle;
+    }
+    .inner-item-1 {
+      background: #373d41;
+      height: 40px;
+      overflow-y: hidden;
+    }
+  }
+  a {
+    color: #fff;
+  }
+}
+
+/*左侧导航动画*/
+.slidebar-rotate {
+  animation: rotate .1s forwards;
+}
+
+.slidebar-rotate-r {
+  animation: rotate-r .1s forwards;
+}
+
+/*内容区设置*/
+.content {
+  height: 100%;
+  margin-top: 50px;
+}
+.content-body{
+  padding: 10px;
+  background: #eaedf1;
+  .title{
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    padding: 16px;
+    font-weight: 700;
+  }
+  .sort-list,.list-block{
+    width: 300px;
+    font-size: 13px;
+  }
+  /*文件上传*/
+  #fileUpload{
+    background: #fff;
+    .form-group{
+      padding:0 15px;
+    }
+  }
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes rotate-r {
+  from {
+    transform: rotate(90deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}

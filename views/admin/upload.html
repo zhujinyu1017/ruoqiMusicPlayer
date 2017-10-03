@@ -1,115 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../css/lib/sm.min.css">
-    <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-<div class="content native-scroll">
-    <form action="" id="fileUpload">
-        <div class="list-block">
-            <ul>
-                <!-- Text inputs -->
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">歌名</div>
-                            <div class="item-input">
-                                <input type="text" placeholder="请输入分类标签" name="songname" id="songname">
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">歌曲上传</div>
-                            <div class="item-input">
-                                <input name="music_song" type='file' placeholder="浏览" id="music_song"/>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">歌词上传</div>
-                            <div class="item-input">
-                                <input name="music_lrc" type='file' placeholder="浏览" id="music_lrc"/>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">封面</div>
-                            <div class="item-input">
-                                <input name="music_img" type='file' placeholder="浏览" id="music_img"/>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">分类</div>
-                            <div class="item-input">
-                                <select name="sort" id="sort">
-                                    <option value="1">古典</option>
-                                    <option value="2">流行</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">排名</div>
-                            <div class="item-input">
-                                <input type="number" placeholder="请输入分类标签" name="rank" id="rank">
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
-                        <div class="item-media"><i class="icon icon-form-name"></i></div>
-                        <div class="item-inner">
-                            <div class="item-title label">歌手</div>
-                            <div class="item-input">
-                                <select name="songster" id="songster">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="content-block">
-            <div class="row">
-                <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
-                <div class="col-50"><a href="#" class="button button-big button-fill button-light"
-                                       id="btn-submit">提交</a>
-                </div>
+{{include './header'}}
+<div class="content flex-box">
+    {{include './slide'}}
+    <div class="content-body flex-box-1">
+        <form action="" id="fileUpload">
+            <div class="form-group">
+                <label>歌名</label>
+                <input type="text" class="form-control" placeholder="请输入歌曲名称" name="songname" id="songname">
             </div>
-        </div>
-    </form>
+            <div class="form-group">
+                <label>歌曲上传</label>
+                <input name="music_song" type='file' class="form-control" placeholder="浏览" id="music_song"/>
+            </div>
+            <div class="form-group">
+                <label>歌词上传</label>
+                <input name="music_lrc" type='file' class="form-control" placeholder="浏览" id="music_lrc"/>
+            </div>
+            <div class="form-group">
+                <label>封面上传</label>
+                <input name="music_img" type='file' class="form-control" placeholder="浏览" id="music_img"/>
+            </div>
+            <div class="form-group">
+                <label>分类</label>
+                <select name="sort" id="sort" class="form-control">
+                    <option value="1">古典</option>
+                    <option value="2">流行</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>排名</label>
+                <input type="number" class="form-control" placeholder="请输入分类标签" name="rank" id="rank">
+            </div>
+            <div class="form-group">
+                <label>歌手</label>
+                <select name="songster" id="songster" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-default" id="btn-submit">Submit</button>
+        </form>
+    </div>
 </div>
 <script src="../js/lib/zepto.js"></script>
-<script src="../js/lib/sm.min.js"></script>
+<script src="../js/admin/base.js"></script>
 <script>
     $("#btn-submit").on('click',function () {
         var formdata = new FormData(fileUpload);
@@ -134,5 +67,4 @@
         });
     })
 </script>
-</body>
-</html>
+{{include './footer'}}
