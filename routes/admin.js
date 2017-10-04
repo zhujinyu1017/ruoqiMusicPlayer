@@ -142,4 +142,21 @@ router.post('/file_upload',cpUpload,function (req, res,next) {
         res.send(returnData);
     }
 })
+/*登录*/
+router.get('/login', function(req, res, next) {
+    res.render('admin/login', { title: '登录'});
+});
+router.post('/ajaxlogin',function (req,res,next) {
+    var user=req.body.user;
+    var pass=req.body.pass;
+    console.log('select * form userinfo where name=xiaoxiao  and pass=123456');
+    // db.query('select * form userinfo where (name="'+user+'"  and  pass="'+pass+'")', function (err, row) {
+    db.query('select  form userinfo where name=xiaoxiao  and pass=123456', function (err, row) {
+        if(err){
+            res.send({success:false});
+        }else {
+            res.send({success:true});
+        }
+    })
+})
 module.exports = router;
