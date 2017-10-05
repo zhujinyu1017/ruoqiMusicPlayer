@@ -23,6 +23,7 @@ router.get('/songlist', function(req, res, next) {
 });
 //文件上传服务
 router.get('/upload', function(req, res, next) {
+    console.log(req.cookies.isVisit);
     res.render('admin/upload', { title: '文件上传' });
 });
 //分类添加
@@ -149,13 +150,41 @@ router.get('/login', function(req, res, next) {
 router.post('/ajaxlogin',function (req,res,next) {
     var user=req.body.user;
     var pass=req.body.pass;
-    console.log('select * form userinfo where name=xiaoxiao  and pass=123456');
-    // db.query('select * form userinfo where (name="'+user+'"  and  pass="'+pass+'")', function (err, row) {
-    db.query('select  form userinfo where name=xiaoxiao  and pass=123456', function (err, row) {
+    db.query("select * from userinfo where name='"+user+"' and pass='"+pass+"'", function (err, row) {
+        console.log(row.length)
         if(err){
             res.send({success:false});
         }else {
-            res.send({success:true});
+            if(row.length == 1){
+                res.send({success:true,data:{user:user}});
+            }else{
+                res.send({success:false});
+            }
+        }
+    })
+})
+/*注册*/
+router.get('/register', function(req, res, next) {
+    res.render('admin/register', { title: '注册'});
+});
+router.post('/ajaxregister',function (req,res,next) {
+    var user=req.body.user;
+    var pass=req.body.pass;
+    db.query("select * from userinfo where name='"+user+"'", function (err, row) {
+        if(err){
+            res.send({success:false,data:{msg:"请求错误1"}});
+        }else {
+            if(row.length > 0){
+                res.send({success:false,data:{msg:"该用户名已被注册"}});
+            }else{
+                db.query("INSERT INTO userinfo (name,pass) VALUES('"+user+"','"+pass+"')", function (err, row) {
+                    if(err){
+                        res.send({success:false,data:{msg:"请求错误2"}});
+                    }else {
+                        res.send({success:true,data:{msg:"注册成功"}});
+                    }
+                })
+            }
         }
     })
 })

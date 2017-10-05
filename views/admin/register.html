@@ -32,15 +32,16 @@
         var user = $("#user").val();
         var pass = $("#pass").val();
         $.ajax({
-            url: '/admin/ajaxlogin',
+            url: '/admin/ajaxregister',
             type: 'POST',
             data: {user: user, pass: pass},
             success: function (result) {
                 if (result.success) {
+                    console.log("注册成功");
                     setCookie('user', user);
                     location.href = '/admin/upload'
                 } else {
-                    alert("登陆失败");
+                    alert(result.data.msg || "登陆失败");
                 }
             }
         })
