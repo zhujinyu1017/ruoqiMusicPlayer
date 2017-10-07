@@ -37,7 +37,7 @@
             data: {user: user, pass: pass},
             success: function (result) {
                 if (result.success) {
-                    console.log("注册成功");
+                    setCookie('islogin', true);
                     setCookie('user', user);
                     location.href = '/admin/upload'
                 } else {

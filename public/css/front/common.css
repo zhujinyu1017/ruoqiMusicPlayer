@@ -1,0 +1,101 @@
+@charset "UTF-8";
+html, body {
+  font-size: 20px;
+  color: #3d4145; }
+
+.avatar-box img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden; }
+
+.mt0-i {
+  margin-top: 0 !important; }
+
+.hide {
+  display: none !important; }
+
+.flex-box {
+  display: -webkit-flex;
+  /* Safari */
+  display: flex; }
+
+.flex-box-1 {
+  -webkit-flex: 1;
+  flex: 1; }
+
+header {
+  background: #CCFFFF !important; }
+  header .icon-me {
+    color: #333; }
+
+/*底部控制栏*/
+.footer {
+  width: 100%;
+  box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.6);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 0 .5rem;
+  background: #CCFFFF; }
+  .footer .tu-music {
+    margin-right: .5rem; }
+    .footer .tu-music img {
+      width: 3rem;
+      height: 3rem;
+      position: relative;
+      top: -1rem;
+      border-radius: 50%; }
+  .footer .name-music {
+    font-size: 14px;
+    color: #333; }
+  .footer .autor-music {
+    font-size: 12px;
+    color: #666; }
+  .footer .progress-control {
+    position: relative;
+    height: 1rem;
+    margin-top: .5rem; }
+    .footer .progress-control .btn {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: #FFCCCC;
+      z-index: 10;
+      position: absolute; }
+  .footer .progress-control:after {
+    content: '';
+    position: absolute;
+    top: .2rem;
+    left: 0;
+    width: 100%;
+    height: .1rem;
+    background: #ccc; }
+  .footer .start {
+    width: 1.3rem;
+    height: 1.3rem;
+    background: url(../../img/start.png);
+    background-size: 100% 100%;
+    margin-left: 3.5rem;
+    margin-right: 1.5rem; }
+  .footer .end {
+    width: 1.3rem;
+    height: 1.3rem;
+    background: url(../../img/end.png);
+    background-size: 100% 100%;
+    margin-left: 3.5rem;
+    margin-right: 1.5rem; }
+  .footer .next {
+    width: 1.3rem;
+    height: 1.3rem;
+    background: url(../../img/next.png);
+    background-size: 100% 100%;
+    margin-right: 1.5rem; }
+  .footer .menu {
+    width: 1.3rem;
+    height: 1.3rem;
+    background: url(../../img/menu.png);
+    background-size: 100% 100%;
+    margin-right: 0px; }
+
+/*# sourceMappingURL=common.css.map */

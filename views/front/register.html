@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="../bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/admin/index.css">
+    <link rel="stylesheet" href="../css/admin/common.css">
+</head>
+<body id="account">
+<div class="login-box form-horizontal">
+    <div class="form-group row">
+        <label for="user" class="col-sm-3 control-label">用户名</label>
+        <div class="col-sm-9">
+            <input type="text" name="user" id="user" class="form-control" placeholder="请输入用户名">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="pass" class="col-sm-3 control-label">密 码</label>
+        <div class="col-sm-9">
+            <input type="text" name="pass" id="pass" class="form-control" placeholder="请输入密码">
+        </div>
+    </div>
+    <div class="row">
+        <input type="button" id="submit" value="submit" class="btn btn-default col-sm-offset-4">
+    </div>
+</div>
+<script src="../js/lib/zepto.js"></script>
+<script src="../js/admin/base.js"></script>
+<script>
+    $("#submit").on('click', function () {
+        var user = $("#user").val();
+        var pass = $("#pass").val();
+        $.ajax({
+            url: '/common/ajaxregister',
+            type: 'POST',
+            data: {user: user, pass: pass},
+            success: function (result) {
+                if (result.success) {
+                    setCookie('islogin', true);
+                    setCookie('user', user);
+                    location.href = '/admin/upload'
+                } else {
+                    alert(result.data.msg || "登陆失败");
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

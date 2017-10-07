@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var indexs = require('./routes/index');
 var admin = require('./routes/admin');
+var common = require('./routes/common');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', indexs);
 app.use('/admin', admin);
+app.use('/common', common);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

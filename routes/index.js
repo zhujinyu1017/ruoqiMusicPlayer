@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var url = require('url')
+var url = require('url');
 var fs = require("fs");
 var db = require("./db.js");
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('front/index', { title: '首页','nav_title':'若栖音乐'});
@@ -142,4 +144,12 @@ router.post('/search',function (req, res, next) {
         res.send(returnData);
     })
 })
+/*登录*/
+router.get('/login', function(req, res, next) {
+    res.render('front/login', { title: '登录'});
+});
+/*注册*/
+router.get('/register', function(req, res, next) {
+    res.render('front/register', { title: '注册'});
+});
 module.exports = router;

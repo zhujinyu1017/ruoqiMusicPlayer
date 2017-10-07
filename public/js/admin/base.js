@@ -23,6 +23,15 @@ $(".slidebar-fold").on('click', function () {
         _this.parents(".sidebar").width("180px");
     }
 })
+/*退出*/
+$(".signout").on('click',function () {
+    console.log(222);
+    delCookie('islogin');
+    delCookie('user');
+    if(!getCookie("islogin")){
+        location.href="/admin/login";
+    }
+})
 //读取cookies
 function getCookie(name) {
     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -41,9 +50,8 @@ function setCookie(name, value, expiredays) {
 function delCookie(name) {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
-    var currentVal = getCookie(name);
-    if (currentVal != null) {
-        document.cookie = name + "=" + currentVal + ";expires=" + exp.toGMTString() + "; path=/";
-    }
+    var cval = getCookie(name);
+    if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 

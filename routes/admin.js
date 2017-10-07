@@ -1,15 +1,29 @@
 var express = require('express');
+var app=express();
 var router = express.Router();
 //引入数据库包
 var db = require("./db.js");
 var fs = require("fs");
 var upload = require('./fileuploads');
+
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+/*判断是否登录*/
+function isLogin(req) {
+    if(req.cookies.islogin) {
+        return req.cookies.user;
+    }
+}
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('admin/index', { title: '控制台'});
+    var user=isLogin(req);
+    res.render('admin/index', { title: '控制台',user:user});
 });
 //分类添加
 router.get('/songlist', function(req, res, next) {
+    var user=isLogin(req);
     var $datas;
     db.query('select * from music',function (err,rows) {
         console.log(rows);
@@ -18,16 +32,17 @@ router.get('/songlist', function(req, res, next) {
         }else{
             $datas=rows;
         }
-        res.render('admin/songlist', { title: '列表',datas:$datas});
+        res.render('admin/songlist', { title: '列表',datas:$datas,user:user});
     })
 });
 //文件上传服务
 router.get('/upload', function(req, res, next) {
-    console.log(req.cookies.isVisit);
-    res.render('admin/upload', { title: '文件上传' });
+    var user=isLogin(req);
+    res.render('admin/upload', { title: '文件上传',user:user });
 });
 //分类添加
 router.get('/sort', function(req, res, next) {
+    var user=isLogin(req);
     var $datas;
     db.query('select * from sort',function (err,rows) {
         console.log(rows);
@@ -36,23 +51,24 @@ router.get('/sort', function(req, res, next) {
         }else{
             $datas=rows;
         }
-        res.render('admin/sort', { title: '分类添加',datas:$datas});
+        res.render('admin/sort', { title: '分类添加',datas:$datas,user:user});
     })
 });
 /*标签添加*/
 router.get('/label', function(req, res, next) {
+    var user=isLogin(req);
     db.query('select * from labels',function (err,rows) {
-        console.log(rows);
         if(err){
             $datas=[];
         }else{
             $datas=rows;
         }
-        res.render('admin/label', { title: '标签添加' ,datas:$datas});
+        res.render('admin/label', { title: '标签添加' ,datas:$datas,user:user});
     })
 });
 /*分类添加ajax*/
 router.post('/sortAdd',function (req,res,next) {
+    var user=isLogin(req);
     var sort=req.body.sort;
     db.query("INSERT INTO sort (name) VALUES('"+sort+"')", function (err, rows) {
         if(err){
